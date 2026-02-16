@@ -5,16 +5,24 @@ using MvcNetCoreEFMultiplesBBDD.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddTransient<RepositoryEmpleados>();
 
+//--------------------SQL SERVER-----------------------
 //builder.Services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosSQLServer>();
 //string connectionString = builder.Configuration.GetConnectionString("SqlConnection");
 //builder.Services.AddDbContext<HospitalContext>(options => options.UseSqlServer(connectionString));
 
+//-----------------ORACLE-------------
+//builder.Services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosOracle>();
+//string connectionString = builder.Configuration.GetConnectionString("OracleConnection");
+//builder.Services.AddDbContext<HospitalContext>(options => options.UseOracle(connectionString));
 
-builder.Services.AddTransient<IRepositoryEmpleados, RepositoryEmpleadosOracle>();
-string connectionString = builder.Configuration.GetConnectionString("OracleConnection");
-builder.Services.AddDbContext<HospitalContext>(options => options.UseOracle(connectionString));
+//--------------------------MYSQL-------------------------
+builder.Services.AddTransient
+    <IRepositoryEmpleados, RepositoryEmpleadosMySql>();
+string connectionString = 
+    builder.Configuration.GetConnectionString("MySqlConnection");
+builder.Services.AddDbContext<HospitalContext>
+    (options => options.UseMySQL(connectionString));
 
 builder.Services.AddControllersWithViews();
 
